@@ -1,0 +1,460 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+    <world name="world_corridor">
+        <physics name="1ms" type="ignored">
+            <max_step_size>0.001</max_step_size>
+            <real_time_factor>1.0</real_time_factor>
+        </physics>
+
+        <plugin 
+            filename="ignition-gazebo-physics-system"
+            name="ignition::gazebo::systems::Physics">
+        </plugin>
+        <plugin 
+            filename="ignition-gazebo-user-commands-system"
+            name="ignition::gazebo::systems::UserCommands">
+        </plugin>
+        <plugin 
+            filename="ignition-gazebo-scene-broadcaster-system"
+            name="ignition::gazebo::systems::SceneBroadcaster">
+        </plugin>
+
+        <light type="directional" name="sun">
+            <cast_shadows>false</cast_shadows>
+            <pose>0 0 10 0 0 0</pose>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.2 0.2 0.2 1</specular>
+            <attenuation>
+                <range>1000</range>
+                <constant>0.9</constant>
+                <linear>0.01</linear>
+                <quadratic>0.001</quadratic>
+            </attenuation>
+            <direction>-0.5 0.1 -0.9</direction>
+        </light>
+
+        <model name="plane">
+            <static>true</static>
+            <pose relative_to="world">0 0 0 0 0 0</pose>
+
+            <link name="plane">
+                <pose relative_to="__model__">0 0 0 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <plane>
+                        <normal>0 0 1</normal>
+                        </plane>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <plane>
+                        <normal>0 0 1</normal>
+                        <size>100 100 </size>
+                        </plane>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="corridor">
+            <static>true</static>
+            <pose relative_to="plane">0 0 0 0 0 0</pose>
+
+            <link name="east_wall">
+                <pose relative_to="__model__">0 -1.3 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>35.8 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>35.8 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="west_wall">
+                <pose relative_to="__model__">-3.55 1.3 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>42.9 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>42.9 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="north_wall">
+                <pose relative_to="__model__">25.05 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 2.7 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 2.7 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="south_wall">
+                <pose relative_to="__model__">-25.05 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 2.7 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 2.7 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+        
+        <model name="room_1">
+            <static>true</static>
+            <pose relative_to="corridor">-21.5 -4.85 0 0 0 0</pose>
+
+            <link name="east_wall">
+                <pose relative_to="__model__">0 -3.55 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>7 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>7 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="west_wall">
+                <pose relative_to="__model__">-0.75 3.55 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>5.5 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>5.5 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="north_wall">
+                <pose relative_to="__model__">3.55 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="south_wall">
+                <pose relative_to="__model__">-3.55 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="room_2">
+            <static>true</static>
+            <pose relative_to="corridor">21.5 -4.85 0 0 0 0</pose>
+
+            <link name="east_wall">
+                <pose relative_to="__model__">0 -3.55 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>7 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>7 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="west_wall">
+                <pose relative_to="__model__">0.75 3.55 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>5.5 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>5.5 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="north_wall">
+                <pose relative_to="__model__">3.55 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="south_wall">
+                <pose relative_to="__model__">-3.55 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="room_3">
+            <static>true</static>
+            <pose relative_to="corridor">21.5 4.85 0 0 0 0</pose>
+
+            <link name="east_wall">
+                <pose relative_to="__model__">0.75 -3.55 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>5.5 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>5.5 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="west_wall">
+                <pose relative_to="__model__">0 3.55 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>7 0.1 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>7 0.1 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="north_wall">
+                <pose relative_to="__model__">3.55 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+
+            <link name="south_wall">
+                <pose relative_to="__model__">-3.55 0 1.5 0 0 0</pose>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.1 7.2 3</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.75 0.75 0.75 1</ambient>
+                        <diffuse>0.75 0.75 0.75 1</diffuse>
+                        <specular>0.75 0.75 0.75 1</specular>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+        <model name="wheelchair">
+            <pose>0 0 0 0 0 0</pose>
+            <include merge="true">
+                <uri>package://ros_gz_wheelchair_description/models/wheelchair</uri>
+            </include>
+        </model>
+    </world>
+</sdf>

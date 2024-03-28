@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>wheelchair_application</name>
+  <version>0.0.0</version>
+  <description>application implementation for the wheelchair model</description>
+  <maintainer email="qgeng@ncsu.edu">Qingyu Geng</maintainer>
+  <license>Apache-2.0</license>
+  <author>Qingyu Geng</author>
+
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

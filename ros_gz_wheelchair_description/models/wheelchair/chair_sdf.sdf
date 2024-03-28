@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+    <model name='wheelchair'>
+        <!--base frame of the wheelchair-->
+        <link name="center">
+            <pose relative_to="__model__">0 0 0.12925 0 0 0</pose>
+        </link>
+
+        <!--Chassis Link-->
+        <link name='chassis'>
+            <pose relative_to='center'>-0.175 0 0.1 0 0 0</pose>
+            <inertial>
+                <mass>20</mass>
+                <inertia>
+                    <ixx>0.4113</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>1.0042</iyy>
+                    <iyz>0</iyz>
+                    <izz>1.2821</izz>
+                </inertia>
+            </inertial>
+            <visual name='visual'>
+                <geometry>
+                    <box>
+                        <size>0.75 0.4547 0.2</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>0.0 0.0 1.0 1</ambient>
+                    <diffuse>0.0 0.0 1.0 1</diffuse>
+                    <specular>0.0 0.0 1.0 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <box>
+                        <size>0.75 0.4547 0.2</size>
+                    </box>
+                </geometry>
+            </collision>
+        </link>
+
+
+        <!--Left Wheel Link-->
+        <link name='left_wheel'>
+            <pose relative_to='center'>0 0.26985 0 -1.5707 0 0</pose>
+            <inertial>
+                <mass>1</mass>    
+                <inertia>
+                    <ixx>4.77847e-3</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>4.77847e-3</iyy>
+                    <iyz>0</iyz>
+                    <izz>8.35278e-3</izz>
+                </inertia>
+            </inertial>
+            <visual name='visual'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.12925</radius>
+                        <length>0.085</length>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>1.0 0.0 0.0 1</ambient>
+                    <diffuse>1.0 0.0 0.0 1</diffuse>
+                    <specular>1.0 0.0 0.0 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.12925</radius>
+                        <length>0.085</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+        </link>
+
+        <!--Right Wheel Link-->
+        <link name='right_wheel'>
+            <pose relative_to='center'>0 -0.26985 0 -1.5707 0 0</pose>
+            <inertial>
+                <mass>1</mass>    
+                <inertia>
+                    <ixx>4.77847e-3</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>4.77847e-3</iyy>
+                    <iyz>0</iyz>
+                    <izz>8.35278e-3</izz>
+                </inertia>
+            </inertial>
+            <visual name='visual'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.12925</radius>
+                        <length>0.085</length>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>1.0 0.0 0.0 1</ambient>
+                    <diffuse>1.0 0.0 0.0 1</diffuse>
+                    <specular>1.0 0.0 0.0 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.12925</radius>
+                        <length>0.085</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+        </link>
+    
+        <!--Laser Link-->
+        <link name="laser">
+            <pose relative_to="center">-0.74 0 1.40575 0 0 0</pose>
+            <visual name="visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.0381</radius>
+                        <length>0.0381</length>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <ambient>1 1 1 1</ambient>
+                    <diffuse>1 1 1 1</diffuse>
+                    <specular>1 1 1 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <cylinder>
+                        <radius>0.0381</radius>
+                        <length>0.0381</length>
+                    </cylinder>
+                </geometry>
+            </collision>
+        </link>
+
+        <!--Camera Link-->
+        <link name="camera">
+            <pose relative_to="laser">0 0 -0.075 0 0 0</pose>
+            <visual name="visual">
+                <geometry>
+                    <box>
+                        <size>0.0225 0.088 0.0225</size>
+                    </box>
+                </geometry>
+                <material>
+                    <ambient>1 1 1 1</ambient>
+                    <diffuse>1 1 1 1</diffuse>
+                    <specular>1 1 1 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <box>
+                        <size>0.0225 0.088 0.0225</size>
+                    </box>
+                </geometry>
+            </collision>
+        </link>
+
+        <!--Caster Wheel Link-->
+        <link name='caster'>
+            <pose relative_to='center'>-0.55 0 0 0 0 0</pose>
+            <inertial>
+                <mass>1</mass>    
+                <inertia>
+                    <ixx>0.016</ixx>
+                    <ixy>0</ixy>
+                    <ixz>0</ixz>
+                    <iyy>0.016</iyy>
+                    <iyz>0</iyz>
+                    <izz>0.016</izz>
+                </inertia>
+            </inertial>
+            <visual name='visual'>
+                <geometry>
+                    <sphere>
+                        <radius>0.12925</radius>
+                    </sphere>
+                </geometry>
+                <material>
+                    <ambient>0.0 1.0 0.0 1</ambient>
+                    <diffuse>0.0 1.0 0.0 1</diffuse>
+                    <specular>0.0 1.0 0.0 1</specular>
+                </material>
+            </visual>
+            <collision name='collision'>
+                <geometry>
+                    <sphere>
+                        <radius>0.12925</radius>
+                    </sphere>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="center_chassis_joint" type="fixed">
+            <pose relative_to="center"></pose>
+            <parent>center</parent>
+            <child>chassis</child>
+        </joint>
+
+        <!-- Joint between chassis and the left wheel -->
+        <joint name='left_wheel_joint' type='fixed'>
+            <pose relative_to='left_wheel'>0 0 0 0 0 0</pose>
+            <parent>center</parent>
+            <child>left_wheel</child>
+        </joint>
+
+        <!-- Joint between chassis and the right wheel -->
+        <joint name='right_wheel_joint' type='fixed'>
+            <pose relative_to='right_wheel'>0 0 0 0 0 0</pose>
+            <parent>center</parent>
+            <child>right_wheel</child>
+        </joint>
+
+        <!--Joint between Chassis and Laser-->
+        <joint name="laser_joint" type="fixed">
+            <pose relative_to="laser"></pose>
+            <parent>chassis</parent>
+            <child>laser</child>
+        </joint>
+
+        <!--Joint between LiDar and Camera-->
+        <joint name="camera_joint" type="fixed">
+            <pose relative_to="camera"></pose>
+            <parent>laser</parent>
+            <child>camera</child>
+        </joint>
+
+        <!--Joint where the caster wheel attached to the chassis-->
+        <joint name='caster_wheel' type='fixed'>
+            <parent>center</parent>
+            <child>caster</child>
+        </joint>
+    </model>
+</sdf>
