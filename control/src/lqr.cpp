@@ -41,7 +41,7 @@ public:
             "/odom", 10, std::bind(&MobileRobotController::robotPoseCallback, this, std::placeholders::_1));
 
         local_pose_sub_ = this->create_subscription<nav_msgs::msg::Path>(
-            "/local_plan", 10, std::bind(&MobileRobotController::localPoseCallback, this, std::placeholders::_1));
+            "/local_plan", 12, std::bind(&MobileRobotController::localPoseCallback, this, std::placeholders::_1));
 
         // Publish control input topic
         control_input_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
@@ -50,16 +50,16 @@ public:
             0, 1, 0,
             0, 0, 1;
 
-        Q_ << 1, 0, 0,
-            0, 1, 0,
-            0, 0, 1;
+        Q_ << 0.8, 0, 0,
+            0, 0.8, 0,
+            0, 0, 0.8;
 
         R_ << 0.01, 0,
             0, 0.01;
 
         desired_state_ = {10, 0.0, 0}; // x, y, and theta
         dt_ = 0.03;
-        tolerance = 0.03;
+        tolerance = 0.005;
         end_controller = false;
         max_linear_velocity = 5.0;
         max_angular_velocity = M_PI / 2;
@@ -151,8 +151,23 @@ private:
             Input u = LQR(state_error_, Q_, R_, A_, B);
             u.v = std::clamp(u.v, -max_linear_velocity, max_linear_velocity);
             u.w = std::clamp(u.w, -max_angular_velocity, max_angular_velocity);
-            pubVel(u.v, u.w);
             double state_error_magnitude = state_error_.norm();
+            
+            if (u.v < -max_linear_velocity || u.v > max_linear_velocity || double(u.v) != u.v)
+            {
+                u = Input(0.2, u.w);
+            }
+            if (u.w < -max_angular_velocity || u.w > max_angular_velocity || double(u.w) != u.w)
+            {
+                u = Input(u.v, 0.2);
+            }
+            if (state_error_magnitude > 100)
+            {
+                u = Input(0.3, 0.3);
+            }
+
+            pubVel(u.v, u.w);
+
             if (state_error_magnitude < tolerance)
             {
                 // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Error low, Goal Reached: %f", state_error_magnitude);
@@ -169,24 +184,18 @@ private:
         }
     }
 
-    void localPoseCallback(const nav_msgs::msg::Path::ConstPtr& msg_local_pose)
+    void localPoseCallback(const nav_msgs::msg::Path::ConstPtr &msg_local_pose)
     {
-            // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Local Pose: (%f, %f, %f)", msg_local_pose->poses[9].pose.position.x, msg_local_pose->poses[9].pose.position.y, msg_local_pose->poses[9].pose.position.z);
-            if (end_controller == false)
-            {
-                tf2::Quaternion quat(msg_local_pose->poses[9].pose.orientation.x, msg_local_pose->poses[9].pose.orientation.y, msg_local_pose->poses[9].pose.orientation.z, msg_local_pose->poses[9].pose.orientation.w);
-                tf2::Matrix3x3 mat(quat);
-                double roll, pitch, yaw;
-                mat.getRPY(roll, pitch, yaw);
-                desired_state_ = State(msg_local_pose->poses[9].pose.position.x, msg_local_pose->poses[9].pose.position.y, yaw);
-                // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Inside local Desired: (%f, %f, %f)", desired_state_.x, desired_state_.y, desired_state_.theta);
-            }
-            else
-            {
-                // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Local Plan Goal reached!");
-                control_loop_timer_->cancel();
-                return;
-            }
+        // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Local Pose: (%f, %f, %f)", msg_local_pose->poses[9].pose.position.x, msg_local_pose->poses[9].pose.position.y, msg_local_pose->poses[9].pose.position.z);
+        if (end_controller == false)
+        {
+            tf2::Quaternion quat(msg_local_pose->poses[9].pose.orientation.x, msg_local_pose->poses[9].pose.orientation.y, msg_local_pose->poses[9].pose.orientation.z, msg_local_pose->poses[9].pose.orientation.w);
+            tf2::Matrix3x3 mat(quat);
+            double roll, pitch, yaw;
+            mat.getRPY(roll, pitch, yaw);
+            desired_state_ = State(msg_local_pose->poses[9].pose.position.x, msg_local_pose->poses[9].pose.position.y, yaw);
+            // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Inside local Desired: (%f, %f, %f)", desired_state_.x, desired_state_.y, desired_state_.theta);
+        }
     }
 
     // Subscriptions and publishers
