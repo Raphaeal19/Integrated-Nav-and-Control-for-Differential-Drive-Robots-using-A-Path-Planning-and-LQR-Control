@@ -3,7 +3,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, TimerAction
 from launch.actions import IncludeLaunchDescription, RegisterEventHandler
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -11,12 +11,11 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch.event_handlers import OnProcessExit
 from launch_ros.substitutions import FindPackageShare
 
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetParameter
 
 
 def generate_launch_description():
     # Configure ROS nodes for launch
-
     # Setup project paths
     pkg_project_bringup = get_package_share_directory('ros_gz_wheelchair_bringup')
     pkg_project_gazebo = get_package_share_directory('ros_gz_wheelchair_gazebo')
@@ -71,51 +70,22 @@ def generate_launch_description():
         output = "screen"
     )
 
-    robot_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare("ros_gz_wheelchair_bringup"),
-            "config",
-            "my_controllers.yaml",
-        ]
+    online_async_params = os.path.join(pkg_project_bringup, 'config', 'mapper_params_online_async.yaml')
+    online_async_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            pkg_project_bringup, 'launch', 'online_async_launch.py'
+        )]), launch_arguments={'use_sim_time': 'true', 'slam_params_file':online_async_params}.items()
     )
 
-    control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_controllers],
-        output="both",
-        remappings=[
-            ("~/robot_description", "/robot_description"),
-        ],
-    )
-    
-    diff_drive_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["diff_cont"]
-    )
-
-    joint_broad_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_broad"]
-    )
-
-    delay_rviz_after_jsbs = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=joint_broad_spawner,
-            on_exit=[rviz]
-        )
-    )
-
-    delay_controller_after_jsbs = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=joint_broad_spawner,
-            on_exit=[diff_drive_spawner]
-        )
+    navigation_params = os.path.join(pkg_project_bringup, 'config', 'nav2_params.yaml')
+    navigation_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            pkg_project_bringup, 'launch', 'navigation_launch.py'
+        )]), launch_arguments={'use_sim_time': 'true', 'params_file': navigation_params}.items()
     )
 
     return LaunchDescription([
+        SetParameter(name='use_sim_time', value=True),
         robot_state_publisher,
         DeclareLaunchArgument("rviz", default_value="true",
             description="Open RViz."),
@@ -123,6 +93,12 @@ def generate_launch_description():
         bridge,
         gz_sim,
         rviz,
-        # delay_rviz_after_jsbs,
-        # delay_controller_after_jsbs,
-        ])
+        TimerAction(
+            period=3.0,
+            actions=[online_async_launch,]
+        ),
+        TimerAction(
+            period=3.0,
+            actions=[navigation_launch,]
+        )
+    ]) 
