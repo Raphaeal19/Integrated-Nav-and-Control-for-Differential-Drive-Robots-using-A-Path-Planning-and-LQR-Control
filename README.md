@@ -13,6 +13,10 @@
 - __Unusual behavior__: If the robot ever stops and the controller specifies Goal reached, please stop the controller by __Ctrl + C__ and rerun it, the robot should start moving towards the target.I am not sure why this error occurs, but I'm guessing it is due to sync issues between odom and local_path topics.
 
 ## Installation
-
+1) Clone this repository in a folder.
+2) Create a workspace folder and a __"src"__ source folder inside it, and copy all the content from the cloned repo into the source folder.
+3) Move to the workspace folder in terminal/cmd and source ROS.
+4) Run the command: __"colcon build"__ to build all the packages.
+5) 
 
 
