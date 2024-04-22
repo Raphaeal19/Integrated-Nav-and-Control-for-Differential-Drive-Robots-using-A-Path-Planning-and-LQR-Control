@@ -21,7 +21,7 @@ ament_target_dependencies(lqr rclcpp geometry_msgs nav_msgs tf2 tf2_ros Eigen3)
 
 install(TARGETS
   lqr
-  DESTINATION share/${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 if(BUILD_TESTING)
