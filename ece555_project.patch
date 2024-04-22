@@ -1,0 +1,92 @@
+diff --git a/ros_gz_wheelchair_bringup/config/wheelchair.rviz b/ros_gz_wheelchair_bringup/config/wheelchair.rviz
+index 26e057d..20834f5 100644
+--- a/ros_gz_wheelchair_bringup/config/wheelchair.rviz
++++ b/ros_gz_wheelchair_bringup/config/wheelchair.rviz
+@@ -139,7 +139,7 @@ Visualization Manager:
+         Filter size: 10
+         History Policy: Keep Last
+         Reliability Policy: Reliable
+-        Value: /lidar
++        Value: /scan
+       Use Fixed Frame: true
+       Use rainbow: true
+       Value: true
+@@ -189,7 +189,7 @@ Visualization Manager:
+   Views:
+     Current:
+       Class: rviz_default_plugins/Orbit
+-      Distance: 24.40549659729004
++      Distance: 18.280071258544922
+       Enable Stereo Rendering:
+         Stereo Eye Separation: 0.05999999865889549
+         Stereo Focal Distance: 1
+diff --git a/ros_gz_wheelchair_bringup/config/wheelchair_bridge.yaml b/ros_gz_wheelchair_bringup/config/wheelchair_bridge.yaml
+index b4bd56a..cd2dc2d 100644
+--- a/ros_gz_wheelchair_bringup/config/wheelchair_bridge.yaml
++++ b/ros_gz_wheelchair_bringup/config/wheelchair_bridge.yaml
+@@ -47,7 +47,8 @@
+   gz_type_name: "ignition.msgs.Odometry"
+   direction: GZ_TO_ROS
+ 
+-- topic_name: "lidar"
++- ros_topic_name: "scan"
++  gz_topic_name: "lidar"
+   ros_type_name: "sensor_msgs/msg/LaserScan"
+   gz_type_name: "ignition.msgs.LaserScan"
+   direction: GZ_TO_ROS
+@@ -64,14 +65,14 @@
+   direction: GZ_TO_ROS
+ 
+ - ros_topic_name: "tf"
+-  gz_topic_name: "model/wheelchair/pose"
++  gz_topic_name: "model/wheelchair/tf"
+   ros_type_name: "tf2_msgs/msg/TFMessage"
+   gz_type_name: "gz.msgs.Pose_V"
+   direction: GZ_TO_ROS
+ 
+-- ros_topic_name: "tf_static"
+-  gz_topic_name: "model/wheelchair/pose_static"
+-  ros_type_name: "tf2_msgs/msg/TFMessage"
+-  gz_type_name: "gz.msgs.Pose_V"
+-  direction: GZ_TO_ROS
++#- ros_topic_name: "tf_static"
++#  gz_topic_name: "model/wheelchair/pose_static"
++#  ros_type_name: "tf2_msgs/msg/TFMessage"
++#  gz_type_name: "gz.msgs.Pose_V"
++#  direction: GZ_TO_ROS
+ 
+diff --git a/ros_gz_wheelchair_description/models/wheelchair/model.sdf b/ros_gz_wheelchair_description/models/wheelchair/model.sdf
+index 75d52ad..e87841a 100644
+--- a/ros_gz_wheelchair_description/models/wheelchair/model.sdf
++++ b/ros_gz_wheelchair_description/models/wheelchair/model.sdf
+@@ -300,6 +300,8 @@
+             <wheel_separation>0.5397</wheel_separation>
+             <wheel_radius>0.12925</wheel_radius>
+             <odom_publish_frequency>10</odom_publish_frequency>
++            <frame_id>odom</frame_id>
++            <child_frame_id>center</child_frame_id>
+             <max_linear_acceleration>1</max_linear_acceleration>
+             <min_linear_acceleration>-1</min_linear_acceleration>
+             <max_angular_acceleration>2</max_angular_acceleration>
+@@ -329,7 +331,7 @@
+             name="ignition::gazebo::systems::JointStatePublisher">
+         </plugin>
+ 
+-        <plugin
++        <!--<plugin
+             filename="ignition-gazebo-pose-publisher-system"
+             name="ignition::gazebo::systems::PosePublisher">
+             <publish_link_pose>true</publish_link_pose>
+@@ -341,9 +343,9 @@
+         <plugin
+             filename="ignition-gazebo-odometry-publisher-system"
+             name="ignition::gazebo::systems::OdometryPublisher">
+-            <odom_frame>diff_drive/odom</odom_frame>
+-            <robot_base_frame>diff_drive</robot_base_frame>
+-        </plugin>
++            <odom_frame>odom</odom_frame>
++            <robot_base_frame>base_link</robot_base_frame>
++        </plugin>-->
+ 
+     </model>
+ </sdf>

@@ -299,6 +299,8 @@
             <right_joint>right_wheel_joint</right_joint>
             <wheel_separation>0.5397</wheel_separation>
             <wheel_radius>0.12925</wheel_radius>
+            <frame_id>odom</frame_id>
+            <child_frame_id>center</child_frame_id>
             <odom_publish_frequency>10</odom_publish_frequency>
             <max_linear_acceleration>1</max_linear_acceleration>
             <min_linear_acceleration>-1</min_linear_acceleration>
@@ -329,7 +331,7 @@
             name="ignition::gazebo::systems::JointStatePublisher">
         </plugin>
 
-        <plugin
+        <!-- <plugin
             filename="ignition-gazebo-pose-publisher-system"
             name="ignition::gazebo::systems::PosePublisher">
             <publish_link_pose>true</publish_link_pose>
@@ -343,7 +345,7 @@
             name="ignition::gazebo::systems::OdometryPublisher">
             <odom_frame>diff_drive/odom</odom_frame>
             <robot_base_frame>diff_drive</robot_base_frame>
-        </plugin>
+        </plugin> -->
 
     </model>
 </sdf>

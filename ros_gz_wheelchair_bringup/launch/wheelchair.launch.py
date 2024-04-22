@@ -4,10 +4,12 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, RegisterEventHandler
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.event_handlers import OnProcessExit
+from launch_ros.substitutions import FindPackageShare
 
 from launch_ros.actions import Node
 
@@ -34,7 +36,8 @@ def generate_launch_description():
             pkg_project_gazebo,
             "worlds",
             "world_corridor.sdf"
-            ])}.items(),
+            ])
+            }.items(),
         )
 
     # Takes the description and joint angles as inputs and publishes the 3D poses of the robot links
@@ -63,16 +66,63 @@ def generate_launch_description():
         executable = "parameter_bridge",
         parameters = [{
             "config_file": os.path.join(pkg_project_bringup, "config", "wheelchair_bridge.yaml"),
-            "qos_overrides./tf_static.publisher.durability": "transient_local",
-            }],
+            "qos_overrides./tf_static.publisher.durability": "transient_local"
+            } ],
         output = "screen"
+    )
+
+    robot_controllers = PathJoinSubstitution(
+        [
+            FindPackageShare("ros_gz_wheelchair_bringup"),
+            "config",
+            "my_controllers.yaml",
+        ]
+    )
+
+    control_node = Node(
+        package="controller_manager",
+        executable="ros2_control_node",
+        parameters=[robot_controllers],
+        output="both",
+        remappings=[
+            ("~/robot_description", "/robot_description"),
+        ],
+    )
+    
+    diff_drive_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_cont"]
+    )
+
+    joint_broad_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_broad"]
+    )
+
+    delay_rviz_after_jsbs = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_broad_spawner,
+            on_exit=[rviz]
         )
+    )
+
+    delay_controller_after_jsbs = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_broad_spawner,
+            on_exit=[diff_drive_spawner]
+        )
+    )
 
     return LaunchDescription([
-        gz_sim,
+        robot_state_publisher,
         DeclareLaunchArgument("rviz", default_value="true",
             description="Open RViz."),
+        # control_node,
         bridge,
-        robot_state_publisher,
-        rviz
+        gz_sim,
+        rviz,
+        # delay_rviz_after_jsbs,
+        # delay_controller_after_jsbs,
         ])

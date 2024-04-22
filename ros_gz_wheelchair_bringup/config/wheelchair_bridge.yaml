@@ -47,7 +47,8 @@
   gz_type_name: "ignition.msgs.Odometry"
   direction: GZ_TO_ROS
 
-- topic_name: "lidar"
+- ros_topic_name: "scan"
+  gz_topic_name: "lidar"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "ignition.msgs.LaserScan"
   direction: GZ_TO_ROS
@@ -64,14 +65,14 @@
   direction: GZ_TO_ROS
 
 - ros_topic_name: "tf"
-  gz_topic_name: "model/wheelchair/pose"
+  gz_topic_name: "model/wheelchair/tf"
   ros_type_name: "tf2_msgs/msg/TFMessage"
   gz_type_name: "gz.msgs.Pose_V"
   direction: GZ_TO_ROS
 
-- ros_topic_name: "tf_static"
-  gz_topic_name: "model/wheelchair/pose_static"
-  ros_type_name: "tf2_msgs/msg/TFMessage"
-  gz_type_name: "gz.msgs.Pose_V"
-  direction: GZ_TO_ROS
+# - ros_topic_name: "tf_static"
+#   gz_topic_name: "model/wheelchair/pose_static"
+#   ros_type_name: "tf2_msgs/msg/TFMessage"
+#   gz_type_name: "gz.msgs.Pose_V"
+#   direction: GZ_TO_ROS
 
