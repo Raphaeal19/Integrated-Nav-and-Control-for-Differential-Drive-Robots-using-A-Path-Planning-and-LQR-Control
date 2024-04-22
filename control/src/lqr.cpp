@@ -59,7 +59,7 @@ public:
 
         desired_state_ = {10, 0.0, 0}; // x, y, and theta
         dt_ = 0.03;
-        tolerance = 0.005;
+        tolerance = 0.02;
         end_controller = false;
         max_linear_velocity = 5.0;
         max_angular_velocity = M_PI / 2;
