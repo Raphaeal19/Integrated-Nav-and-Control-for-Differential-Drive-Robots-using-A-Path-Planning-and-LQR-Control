@@ -146,7 +146,7 @@ private:
             Eigen::Vector3d x_desired(desired_state_.x, desired_state_.y, desired_state_.theta);
             state_error_ = x_actual - x_desired;
             // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Actual State: (%f, %f, %f)", actual_state_.x, actual_state_.y, actual_state_.theta);
-            RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "State Error: (%f, %f, %f)", state_error_[0], state_error_[1], state_error_[2]);
+            // RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "State Error: (%f, %f, %f)", state_error_[0], state_error_[1], state_error_[2]);
 
             Input u = LQR(state_error_, Q_, R_, A_, B);
             u.v = std::clamp(u.v, -max_linear_velocity, max_linear_velocity);
