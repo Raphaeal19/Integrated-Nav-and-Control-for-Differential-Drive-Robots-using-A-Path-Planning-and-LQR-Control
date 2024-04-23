@@ -1,7 +1,7 @@
 # CSC591-Project: Integrated Navigation and Control for Differential-Drive Robots using A* Path Planning and LQR Control
 
 ## Video
-[![Project Video](https://img.youtube.com/vi/pPGtuJ7y9dQ/0.jpg)](https://www.youtube.com/watch?v=pPGtuJ7y9dQ)
+[![Project Video](https://img.youtube.com/vi/aOzeJ2m_uoA/0.jpg)](https://youtu.be/aOzeJ2m_uoA)
 
 ## Details
 - This project intends to implement Simultaneous Localization and Mapping, along with A* path planning algorithm and a Lienar Quadratic Optimal Controller(LQR) to control the robot path.
