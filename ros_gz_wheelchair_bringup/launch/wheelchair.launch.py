@@ -34,7 +34,7 @@ def generate_launch_description():
         launch_arguments={"gz_args": PathJoinSubstitution([
             pkg_project_gazebo,
             "worlds",
-            "world_corridor.sdf"
+            "obstacles_world.sdf"
             ])
             }.items(),
         )

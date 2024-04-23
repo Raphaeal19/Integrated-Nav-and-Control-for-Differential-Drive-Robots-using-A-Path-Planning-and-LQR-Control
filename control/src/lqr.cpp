@@ -50,16 +50,16 @@ public:
             0, 1, 0,
             0, 0, 1;
 
-        Q_ << 0.8, 0, 0,
-            0, 0.8, 0,
-            0, 0, 0.8;
+        Q_ << 0.6, 0, 0,
+            0, 0.6, 0,
+            0, 0, 0.6;
 
         R_ << 0.01, 0,
             0, 0.01;
 
         desired_state_ = {10, 0.0, 0}; // x, y, and theta
         dt_ = 0.03;
-        tolerance = 0.02;
+        tolerance = 0.01;
         end_controller = false;
         max_linear_velocity = 5.0;
         max_angular_velocity = M_PI / 2;
@@ -163,7 +163,9 @@ private:
             }
             if (state_error_magnitude > 100)
             {
-                u = Input(0.3, 0.3);
+                RCLCPP_INFO(rclcpp::get_logger("mobile_robot_controller"), "Error too high: %f", state_error_magnitude);
+                u = Input(0, 0);
+                end_controller = true;
             }
 
             pubVel(u.v, u.w);
