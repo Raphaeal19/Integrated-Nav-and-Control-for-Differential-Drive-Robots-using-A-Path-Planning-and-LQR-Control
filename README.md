@@ -29,7 +29,7 @@
 3) Once all the nodes are running (nothing is printing in the terminal), set the initial pose and the goal pose using RViz's tools at the top of RViz screen. This should simulate the path to the goal position.
 4) Open the other terminal and run the controller using __"ros2 run control lqr"__. This should be run as soon as possible after setting the goal pose.
 5) Each new goal needs a complete rerun and relaunch of all system, rerun steps 1-4.
-6) Addiyional goals can be published inisde the scanned worksapce in RViz, provided that the goal hasn't already been reached.
+6) Additional goals can be published inisde the scanned worksapce in RViz, provided that the goal hasn't already been reached. This is a known behavior.
 
 ## Known behaviors
 1) If the controller isn't run soon after the goal pose is set and the path is created, the Nav2 node might shutdown. This requires to set the goal pose again.
